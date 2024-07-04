@@ -1,7 +1,7 @@
 /* src/News.css */
 body {
-    background-color: #f5f5f5;
-    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    font-family: 'Roboto', sans-serif;
     color: #333;
   }
   
@@ -9,6 +9,9 @@ body {
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
+    background: linear-gradient(to bottom right, #ffffff, #f8f9fa);
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
   
   .news-form {
@@ -16,14 +19,25 @@ body {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    align-items: center;
   }
   
   .news-form label {
     margin-right: 10px;
+    font-weight: bold;
   }
   
   .news-form input {
-    margin-right: 10px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .news-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+    outline: none;
   }
   
   .news-form button {
@@ -31,12 +45,14 @@ body {
     color: #fff;
     border: none;
     padding: 10px 20px;
+    border-radius: 8px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
   }
   
   .news-form button:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
   }
   
   .news-grid {
@@ -48,13 +64,20 @@ body {
   .news-item {
     background-color: #fff;
     padding: 20px;
-    border-radius: 8px;
-    flex: 1 1 calc(50% - 20px); /* Adjusted for 2 columns */
+    border-radius: 10px;
+    flex: 1 1 calc(50% - 20px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  
+  .news-item.loaded {
+    opacity: 1;
+    transform: translateY(0);
   }
   
   .news-item:hover {
@@ -64,7 +87,26 @@ body {
   
   @media (max-width: 768px) {
     .news-item {
-      flex: 1 1 calc(100% - 20px); /* Full width on smaller screens */
+      flex: 1 1 calc(100% - 20px);
+    }
+  }
+  
+  .loading-spinner {
+    border: 8px solid #f3f3f3;
+    border-top: 8px solid #007bff;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
     }
   }
   
