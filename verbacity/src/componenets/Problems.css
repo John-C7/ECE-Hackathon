@@ -1,0 +1,96 @@
+/* src/Problems.css */
+
+/* General styles */
+body {
+    background-color: #1c1c1c; /* Dark background */
+    font-family: 'Roboto', sans-serif; /* Modern font */
+    color: #eee; /* Light text color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+/* Container styles */
+.problems-container {
+    padding: 40px;
+    width: 100%;
+    max-width: 600px;
+    background-color: #282828; /* Darker container */
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    animation: slide-in 0.5s ease-out both;
+}
+
+@keyframes slide-in {
+    0% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Form styles */
+.problems-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.problems-form label {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.problems-form input[type="text"],
+.problems-form input[type="file"] {
+    padding: 12px;
+    border: 1px solid #555; /* Darker border */
+    border-radius: 6px;
+    font-size: 16px;
+    background-color: #444; /* Dark input background */
+    color: #eee; /* Light text color */
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.problems-form input[type="text"]:focus,
+.problems-form input[type="file"]:focus {
+    border-color: #007bff;
+    background-color: #333;
+}
+
+.problems-form button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 14px 24px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.problems-form button:hover {
+    background-color: #0056b3;
+}
+
+.problems-form p {
+    margin-top: 12px;
+    font-size: 16px;
+    color: #28a745;
+    animation: fade-in 0.5s ease-out both;
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
