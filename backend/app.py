@@ -1,20 +1,27 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 import requests
 from googletrans import Translator
 import os
 from werkzeug.utils import secure_filename
+import speech_recognition as sr
+from gtts import gTTS
+import pygame
 
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///problems.db'  # Adjust as necessary
 app.config['UPLOAD_FOLDER'] = 'uploads/'  # Folder to store uploaded images
+app.config['AUDIO_FOLDER'] = 'audio/'  # Folder to store audio files
 db = SQLAlchemy(app)
 
-# Ensure the upload folder exists
+# Ensure the upload and audio folders exist
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
     os.makedirs(app.config['UPLOAD_FOLDER'])
+
+if not os.path.exists(app.config['AUDIO_FOLDER']):
+    os.makedirs(app.config['AUDIO_FOLDER'])
 
 # Mock data for parking
 parking_data = [
@@ -96,6 +103,36 @@ def report_problem():
         return jsonify({"message": "Problem reported successfully"}), 201
     else:
         return jsonify({"error": "File upload failed"}), 400
+
+@app.route('/recognize_and_translate_speech', methods=['POST'])
+def recognize_and_translate_speech():
+    recognizer = sr.Recognizer()
+    mic = sr.Microphone()
+    target_language = request.json.get('target_language')
+
+    with mic as source:
+        recognizer.adjust_for_ambient_noise(source)
+        audio = recognizer.listen(source)
+
+    try:
+        speech_text = recognizer.recognize_google(audio)
+
+        # Translate the recognized text
+        translator = Translator()
+        translated = translator.translate(speech_text, dest=target_language)
+        translated_text = translated.text
+
+        # Convert translated text to speech
+        tts = gTTS(text=translated_text, lang=target_language)
+        audio_filename = "translated_speech.mp3"
+        audio_path = os.path.join(app.config['AUDIO_FOLDER'], audio_filename)
+        tts.save(audio_path)
+
+        return send_file(audio_path, as_attachment=True)
+    except sr.UnknownValueError:
+        return jsonify({"error": "Could not understand the audio."}), 400
+    except sr.RequestError:
+        return jsonify({"error": "Could not request results from Google Speech Recognition service."}), 500
 
 if __name__ == '__main__':
     app.run(debug=True)
