@@ -11,15 +11,6 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* <nav className="navbar">
-        <ul>
-          <li>Home</li>
-          <li>Booking</li>
-          <li>Navigation</li>
-          <li>OCR</li>
-          <li>News</li>
-        </ul>
-      </nav> */}
       <div className="content">
         <div className="flex-container">
           <div className="flex-item">Content 1</div>
