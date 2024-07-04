@@ -13,6 +13,8 @@ import Home from "./componenets/Home";
 import Parking from "./componenets/Parking";
 import NavBar from "./componenets/Navbar";
 import Gemini from "./componenets/ChatBot/Gemini";
+import Navigation from "./componenets/Navigation";
+
 import News from "./componenets/News";
 import Problems from "./componenets/Problems";
 import SpeechToSpeech from "./componenets/speech_to_speech";
@@ -39,6 +41,8 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/chat" element={<Gemini />} />
         <Route path="/Parking" element={<Parking />} />
+        <Route path="/navigation" element={<Navigation />} />
+        
         <Route path="/News" element={<News />} />
         <Route path="/Problems" element={<Problems />} />
         <Route path="/Speech" element={<SpeechRecognitionComponent />} />
