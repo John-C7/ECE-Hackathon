@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
+import "./App.css";
 
-function App() {
+
+
+import Home from "./componenets/Home";
+import Parking from "./componenets/Parking";
+import NavBar from "./componenets/Navbar";
+import Gemini from "./componenets/ChatBot/Gemini";
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    
+    <Router>
+      <AppRoutes />
+    </Router>
   );
-}
+};
+
+const AppRoutes = () => {
+  // const location = useLocation();
+
+
+
+  return (
+    <>
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/chat" element={<Gemini />} />
+        <Route path="/Parking" element={<Parking />} />
+        
+      </Routes>
+    </>
+  );
+};
 
 export default App;
