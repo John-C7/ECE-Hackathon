@@ -8,12 +8,4 @@ const TypingIndicator = ({ typingIndicatorMessage }) => {
 
 export default TypingIndicator;
 
-.typing - indicator {
-    background - color: var(--third - colour);
-    color: #fff;
-    padding: 8px;
-    border - radius: 4px;
-    margin: 5px;
-    clear: both;
-    float: left;
-}
+

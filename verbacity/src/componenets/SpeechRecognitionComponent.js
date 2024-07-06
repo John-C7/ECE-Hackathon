@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './SpeechRecognitionComponent.css'; // Import CSS
-
+import './SpeechRecognitionComponent.css'; 
 const SpeechRecognitionComponent = () => {
     const [targetLanguage, setTargetLanguage] = useState('hi'); // Default to Hindi
     const [audioUrl, setAudioUrl] = useState('');
@@ -11,16 +10,13 @@ const SpeechRecognitionComponent = () => {
     const handleMicClick = async () => {
         setIsListening(true);
         setFeedbackMessage('Listening... Please speak now.');
+    
         try {
-            const response = await axios.post('http://localhost:5000/recognize_and_translate_speech', {
+            const response = await axios.post('http://127.0.0.1:5000/recognize_and_translate_speech', {
                 target_language: targetLanguage
-            }, {
-                responseType: 'blob' // Ensure the response is handled as a file
             });
-
-            // Create a URL for the audio file
-            const audioBlob = new Blob([response.data], { type: 'audio/mp3' });
-            const audioUrl = URL.createObjectURL(audioBlob);
+    
+            const audioUrl = URL.createObjectURL(response.data);
             setAudioUrl(audioUrl);
             setFeedbackMessage('Translation complete. Playing audio...');
         } catch (error) {
@@ -30,6 +26,7 @@ const SpeechRecognitionComponent = () => {
             setIsListening(false);
         }
     };
+    
 
     return (
         <div className="speech-recognition-container">

@@ -31,10 +31,9 @@ body {
   color: #333333;
   text-align: center;
   padding: 14px 16px;
-  text-decoration: none; 
+  text-decoration: none;
   transition: background-color 0.3s ease;
 }
-
 
 .navbar ul li:hover {
   background-color: #b0c4de;
@@ -45,15 +44,14 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 60vh;
+  min-height: 60vh;
   padding: 20px;
 }
 
 .flex-container {
-  display: flex;
-  justify-content: space-around;
-  flex-wrap: wrap;
-  gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 20px;
   max-width: 80%;
   margin: auto;
 }
@@ -62,41 +60,56 @@ body {
   background: linear-gradient(135deg, #ffffff, #dfe9f3);
   border: 1px solid #dfe9f3;
   padding: 20px;
-  flex: 1 1 200px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border-radius: 8px;
   color: #333333;
+  text-align: center;
+  min-height: 125px;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.flex-item img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 10px;
 }
 
 .flex-item:hover {
   transform: scale(1.05);
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #f0f0f0, #dfe9f3);
 }
 
 .search-box {
   position: fixed;
-  bottom: 200px;
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   background: #ffffff;
   padding: 10px 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  transition: bottom 0.5s ease-in-out;
+  transition: transform 0.5s ease-in-out, bottom 0.5s ease-in-out;
   border-radius: 50px;
   display: flex;
   align-items: center;
 }
 
 .search-box-up {
-  bottom: 250px;
+  bottom: 200px;
 }
 
 .search-box input {
   padding: 10px;
   border: none;
   border-radius: 50px;
-  width: 400px;
+  width: 500px;
   background: #f0f0f0;
   color: #333333;
   outline: none;
@@ -124,18 +137,11 @@ body {
 .search-results {
   margin-top: 20px;
   padding: 20px;
-  background: linear-gradient(135deg, #e0eafc, #cfdef3);
+  background: linear-gradient(135deg, #ffffff, #dfe9f3);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   color: #333333;
-  max-width: 50%;
+  max-width: 80%;
   margin: 20px auto;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.search-results.show {
-  opacity: 1;
-  transform: translateY(0);
+  min-height: 200px;
 }

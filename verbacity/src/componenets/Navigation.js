@@ -1,4 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import L from 'leaflet';
+import Papa from 'papaparse';
+import 'leaflet/dist/leaflet.css';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -8,9 +12,51 @@ const Navigation = () => {
   const [availability, setAvailability] = useState('');
   const [chargerType, setChargerType] = useState('');
   const [resultsVisible, setResultsVisible] = useState(false);
+  const [chargingStations, setChargingStations] = useState([]);
+  const [filteredStations, setFilteredStations] = useState([]);
+
+  useEffect(() => {
+    fetch('/evchargers.csv')
+      .then(response => response.text())
+      .then(csvData => {
+        Papa.parse(csvData, {
+          header: true,
+          complete: (results) => {
+            // Ensure correct property names
+            results.data.forEach(station => {
+              station.latitude = parseFloat(station.latitude); // Convert to float
+              station.longitude = parseFloat(station.longitude); // Convert to float
+            });
+
+            setChargingStations(results.data);
+            setFilteredStations(results.data);
+          },
+        });
+      });
+  }, []);
 
   const handleSearch = () => {
-    // Add your search logic here
+    let filtered = chargingStations.filter((station) =>
+      station.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
+    if (filter === 'radius') {
+      // Add radius filtering logic here
+    }
+
+    if (filter === 'availability') {
+      filtered = filtered.filter((station) =>
+        availability === 'yes' ? station.Available > 0 : station.Available == 0
+      );
+    }
+
+    if (filter === 'charger-type') {
+      filtered = filtered.filter(
+        (station) => station.Type.toLowerCase() === chargerType
+      );
+    }
+
+    setFilteredStations(filtered);
     setResultsVisible(true);
   };
 
@@ -21,6 +67,12 @@ const Navigation = () => {
     setAvailability('');
     setChargerType('');
   };
+
+  const icon = new L.Icon({
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+  });
 
   return (
     <div className="navigation">
@@ -82,10 +134,50 @@ const Navigation = () => {
           </select>
         )}
 
-        <button onClick={handleSearch} className="search-button">Search</button>
+        <button onClick={handleSearch} className="search-button">
+          Search
+        </button>
       </div>
-      <div className={`search-results ${resultsVisible ? 'visible' : ''}`}>
-        {/* Display search results here */}
+
+      <div className="results-container">
+        {resultsVisible &&
+          filteredStations.map((station) => (
+            <div key={station.name} className="result-item">
+              {station.name}
+            </div>
+          ))}
+      </div>
+
+      <div className="map-container">
+        <MapContainer
+          center={[20.5937, 78.9629]}
+          zoom={5}
+          style={{ height: '500px', width: '100%' }}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          {filteredStations.map((station) => (
+            <Marker
+              key={station.name}
+              position={[station.latitude || 0, station.longitude || 0]} // Use default value if latitude or longitude is undefined
+              icon={icon}
+            >
+              <Popup>
+                <strong>{station.name}</strong>
+                <br />
+                {station.address}
+                <br />
+                Slots: {station.Slots}
+                <br />
+                Type: {station.Type}
+                <br />
+                Available: {station.Available}
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
       </div>
     </div>
   );

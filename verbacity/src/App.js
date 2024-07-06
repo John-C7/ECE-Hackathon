@@ -19,6 +19,10 @@ import News from "./componenets/News";
 import Problems from "./componenets/Problems";
 import SpeechToSpeech from "./componenets/speech_to_speech";
 import SpeechRecognitionComponent from "./componenets/SpeechRecognitionComponent";
+import OCR from "./componenets/OCR";
+import EV from "./componenets/EV";
+import Weather from "./componenets/Weather";
+import Ewaste from "./componenets/Ewaste";
 
 const App = () => {
   return (
@@ -42,10 +46,13 @@ const AppRoutes = () => {
         <Route path="/chat" element={<Gemini />} />
         <Route path="/Parking" element={<Parking />} />
         <Route path="/navigation" element={<Navigation />} />
-        
+        <Route path="/OCR" element={<OCR />} />
         <Route path="/News" element={<News />} />
         <Route path="/Problems" element={<Problems />} />
         <Route path="/Speech" element={<SpeechRecognitionComponent />} />
+        <Route path="/ev" element={<EV />} />
+        <Route path="/weather" element={<Weather />} />
+        <Route path="/ew" element={<Ewaste />} />
       </Routes>
     </>
   );

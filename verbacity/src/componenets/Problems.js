@@ -9,7 +9,7 @@ const Problems = () => {
   const [message, setMessage] = useState('');
 
   useEffect(() => {
-    // Get the user's location
+    
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition((position) => {
         setLocation({
