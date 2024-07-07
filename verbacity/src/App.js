@@ -3,7 +3,6 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  useLocation,
 } from "react-router-dom";
 import "./App.css";
 
@@ -14,10 +13,8 @@ import Parking from "./componenets/Parking";
 import NavBar from "./componenets/Navbar";
 import Gemini from "./componenets/ChatBot/Gemini";
 import Navigation from "./componenets/Navigation";
-
 import News from "./componenets/News";
 import Problems from "./componenets/Problems";
-import SpeechToSpeech from "./componenets/speech_to_speech";
 import SpeechRecognitionComponent from "./componenets/SpeechRecognitionComponent";
 import OCR from "./componenets/OCR";
 import EV from "./componenets/EV";
@@ -52,7 +49,7 @@ const AppRoutes = () => {
         <Route path="/Speech" element={<SpeechRecognitionComponent />} />
         <Route path="/ev" element={<EV />} />
         <Route path="/weather" element={<Weather />} />
-        <Route path="/ew" element={<Ewaste />} />
+        <Route path="/ewaste" element={<Ewaste />} />
       </Routes>
     </>
   );

@@ -42,19 +42,19 @@ const Home = () => {
       <div className="content">
         <div className="flex-container">
           <Link to="https://www.karnatakaone.gov.in/Public/CenterDetails" className="flex-item">
-            <img src="/Karnataka-One.jpg"  />
+            <img src="/Karnataka-One.jpg"  alt=""/>
             <div>Karnataka One</div>
           </Link>
           <Link to="https://appointments.uidai.gov.in/easearch.aspx?AspxAutoDetectCookieSupport=1" className="flex-item">
-            <img src="./Images/Aadhar.jpg" />
+            <img src="./Images/Aadhar.jpg"  alt=""/>
             <div>Aadhar Centers</div>
           </Link>
           <Link to="/Weather" className="flex-item">
-            <img src="/path_to_image3.jpg"  />
+            <img src="/path_to_image3.jpg"   alt=""/>
             <div>Weather</div>
           </Link>
-          <Link to="/ew" className="flex-item">
-            <img src="/path_to_image4.jpg"  />
+          <Link to="/ewaste" className="flex-item">
+            <img src="/path_to_image4.jpg"  alt="" />
             <div>E-Waste Collection</div>
           </Link>
         </div>

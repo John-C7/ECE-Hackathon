@@ -22,10 +22,10 @@ const Navigation = () => {
         Papa.parse(csvData, {
           header: true,
           complete: (results) => {
-            // Ensure correct property names
+          
             results.data.forEach(station => {
-              station.latitude = parseFloat(station.latitude); // Convert to float
-              station.longitude = parseFloat(station.longitude); // Convert to float
+              station.latitude = parseFloat(station.latitude); 
+              station.longitude = parseFloat(station.longitude); 
             });
 
             setChargingStations(results.data);
@@ -41,12 +41,12 @@ const Navigation = () => {
     );
 
     if (filter === 'radius') {
-      // Add radius filtering logic here
+      
     }
 
     if (filter === 'availability') {
       filtered = filtered.filter((station) =>
-        availability === 'yes' ? station.Available > 0 : station.Available == 0
+        availability === 'yes' ? station.Available > 0 : station.Available === 0
       );
     }
 
@@ -161,7 +161,7 @@ const Navigation = () => {
           {filteredStations.map((station) => (
             <Marker
               key={station.name}
-              position={[station.latitude || 0, station.longitude || 0]} // Use default value if latitude or longitude is undefined
+              position={[station.latitude || 0, station.longitude || 0]} 
               icon={icon}
             >
               <Popup>
