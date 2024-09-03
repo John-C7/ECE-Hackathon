@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import Papa from 'papaparse';
 import 'leaflet/dist/leaflet.css';
+import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
+import LRM from 'leaflet-routing-machine';
 import './Navigation.css';
 
 const Navigation = () => {
@@ -14,6 +16,10 @@ const Navigation = () => {
   const [resultsVisible, setResultsVisible] = useState(false);
   const [chargingStations, setChargingStations] = useState([]);
   const [filteredStations, setFilteredStations] = useState([]);
+  const [userLocation, setUserLocation] = useState(null);
+  const [nearestStation, setNearestStation] = useState(null);
+  const mapRef = useRef(null);
+  const routingControlRef = useRef(null);
 
   useEffect(() => {
     fetch('/evchargers.csv')
@@ -22,7 +28,6 @@ const Navigation = () => {
         Papa.parse(csvData, {
           header: true,
           complete: (results) => {
-          
             results.data.forEach(station => {
               station.latitude = parseFloat(station.latitude); 
               station.longitude = parseFloat(station.longitude); 
@@ -35,13 +40,47 @@ const Navigation = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if (userLocation && filteredStations.length) {
+      const nearest = findNearestStation(userLocation, filteredStations);
+      setNearestStation(nearest);
+    }
+  }, [userLocation, filteredStations]);
+
+  const findNearestStation = (location, stations) => {
+    let nearest = null;
+    let minDistance = Infinity;
+
+    stations.forEach(station => {
+      const distance = calculateDistance(location, [station.latitude, station.longitude]);
+      if (distance < minDistance) {
+        minDistance = distance;
+        nearest = station;
+      }
+    });
+
+    return nearest;
+  };
+
+  const calculateDistance = ([lat1, lon1], [lat2, lon2]) => {
+    const R = 6371; // Radius of the Earth in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c;
+    return distance;
+  };
+
   const handleSearch = () => {
     let filtered = chargingStations.filter((station) =>
       station.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (filter === 'radius') {
-      
+      // Implement radius filter logic here
     }
 
     if (filter === 'availability') {
@@ -67,6 +106,34 @@ const Navigation = () => {
     setAvailability('');
     setChargerType('');
   };
+
+  const handleFindLocation = () => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setUserLocation([latitude, longitude]);
+    }, (error) => {
+      console.error("Error getting location:", error);
+    });
+  };
+
+  useEffect(() => {
+    if (mapRef.current) {
+      if (routingControlRef.current) {
+        routingControlRef.current.remove(); // Remove previous routing control if it exists
+      }
+
+      if (userLocation && nearestStation) {
+        routingControlRef.current = LRM.control({
+          waypoints: [
+            L.latLng(userLocation[0], userLocation[1]),
+            L.latLng(nearestStation.latitude, nearestStation.longitude)
+          ],
+          createMarker: () => null,
+          lineOptions: { styles: [{ color: 'blue', weight: 4 }] }
+        }).addTo(mapRef.current);
+      }
+    }
+  }, [userLocation, nearestStation]);
 
   const icon = new L.Icon({
     iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-icon.png',
@@ -153,6 +220,9 @@ const Navigation = () => {
           center={[20.5937, 78.9629]}
           zoom={5}
           style={{ height: '500px', width: '100%' }}
+          whenCreated={mapInstance => {
+            mapRef.current = mapInstance;
+          }}
         >
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -177,7 +247,24 @@ const Navigation = () => {
               </Popup>
             </Marker>
           ))}
+
+          {userLocation && nearestStation && (
+            <>
+              <Marker position={userLocation} icon={icon}>
+                <Popup>Your Location</Popup>
+              </Marker>
+              <Marker
+                position={[nearestStation.latitude, nearestStation.longitude]}
+                icon={icon}
+              >
+                <Popup>{nearestStation.name}</Popup>
+              </Marker>
+            </>
+          )}
         </MapContainer>
+        <button onClick={handleFindLocation} className="location-button">
+          Find Nearest Station
+        </button>
       </div>
     </div>
   );

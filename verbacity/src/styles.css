@@ -1,0 +1,66 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+nav {
+    background: #333;
+    color: #1f6ea3;
+    padding: 1rem;
+}
+
+nav h1 {
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 1rem;
+}
+
+.home-page {
+    text-align: center;
+}
+
+.background-image {
+    background-image: url('path-to-your-background-image.jpg');
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.background-image h2 {
+    color: rgb(30, 78, 143);
+    font-size: 2rem;
+}
+
+.booking-page {
+    padding: 2rem;
+}
+
+.booking-page form {
+    display: flex;
+    flex-direction: column;
+}
+
+.booking-page form label {
+    margin-bottom: 1rem;
+}
+
+.booking-page form input {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+}
+
+.booking-page form button {
+    padding: 0.5rem;
+    background: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

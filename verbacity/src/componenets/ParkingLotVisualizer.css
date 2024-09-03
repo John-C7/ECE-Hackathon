@@ -1,0 +1,65 @@
+.parking-lot-visualizer {
+    text-align: center;
+    padding: 20px;
+}
+
+.slots-container {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+    justify-content: center;
+}
+
+.slot {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid #ccc;
+}
+
+.slot.available {
+    background-color: green;
+    color: white;
+}
+
+.slot.booked {
+    background-color: red;
+    color: white;
+}
+
+.stations-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.station-card {
+    border: 1px solid #ccc;
+    padding: 20px;
+    cursor: pointer;
+    width: 200px;
+    text-align: left;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.search-container input {
+    padding: 10px;
+    font-size: 16px;
+}
+
+.search-container select,
+.search-container button {
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+}

@@ -32,7 +32,33 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.e-waste-portal {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.image-capture {
+  margin: 20px 0;
+}
+
+video,
+img {
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+}
+
+button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
 }
