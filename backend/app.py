@@ -95,7 +95,7 @@ class Problem(db.Model):
     location = db.Column(db.String(255), nullable=False)
     image_filename = db.Column(db.String(255), nullable=False)
 
-# Create all tables and  schema
+
 with app.app_context():
     db.create_all()
 
